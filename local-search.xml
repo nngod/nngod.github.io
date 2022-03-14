@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>Vue.js——路由前置守卫(钩子)</title>
+    <link href="/2022/03/14/post-1/"/>
+    <url>/2022/03/14/post-1/</url>
+    
+    <content type="html"><![CDATA[<h2 id="全局前置守卫（钩子）"><a href="#全局前置守卫（钩子）" class="headerlink" title="全局前置守卫（钩子）"></a>全局前置守卫（钩子）</h2><p>从名字<strong>全局前置守卫</strong>不难理解，它是全局的，即对 <strong>整个单页应用（SPA）</strong> 中的所有路由都生效，所以当定义了全局的前置守卫，在进入每一个路由之前都会调用这个回调，那么如果你在回调中对路由的跳转条件判断出错，简单点就是死循环…因为你遗漏了某种路由跳转的情况，守卫会一直执行。所以在使用全局前置守卫的时候一定要判断清楚可能会出现的路由跳转的情况。</p><ul><li>基础语法</li></ul><figure class="highlight javascript"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> <span class="hljs-title class_">VueRouter</span>(&#123; ... &#125;)<br><br>router.<span class="hljs-title function_">beforeEach</span>(<span class="hljs-function">(<span class="hljs-params">to, <span class="hljs-keyword">from</span>, next</span>) =&gt;</span> &#123;<br>  <span class="hljs-comment">// ...</span><br>&#125;)<br></code></pre></td></tr></table></figure><p>应用场景<br>在 iView Admin 中全局前置守卫的应用场景就是对用于访问网页的情况进行相应的跳转，例如初次登入，不能访问除登录页面外的页面，已登录会自动跳转自首页等等。<br>代码：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs javascript">router.<span class="hljs-title function_">beforeEach</span>(<span class="hljs-function">(<span class="hljs-params">to, <span class="hljs-keyword">from</span>, next</span>) =&gt;</span> &#123;<br>  <span class="hljs-comment">//开启懒加载</span><br>  iView.<span class="hljs-property">LoadingBar</span>.<span class="hljs-title function_">start</span>();<br>  <span class="hljs-comment">//获取token</span><br>  <span class="hljs-keyword">const</span> token = <span class="hljs-title function_">getToken</span>();<br>  <span class="hljs-keyword">if</span> (!token &amp;&amp; to.<span class="hljs-property">name</span> !== <span class="hljs-variable constant_">LOGIN_PAGE_NAME</span>) &#123;<br>    <span class="hljs-comment">// 未登录且要跳转的页面不是登录页</span><br>    <span class="hljs-title function_">next</span>(&#123;<br>      <span class="hljs-attr">name</span>: <span class="hljs-variable constant_">LOGIN_PAGE_NAME</span>, <span class="hljs-comment">// 跳转到登录页</span><br>    &#125;);<br>  &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!token &amp;&amp; to.<span class="hljs-property">name</span> === <span class="hljs-variable constant_">LOGIN_PAGE_NAME</span>) &#123;<br>    <span class="hljs-comment">// 未登陆且要跳转的页面是登录页</span><br>    <span class="hljs-title function_">next</span>(); <span class="hljs-comment">// 跳转</span><br>  &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (token &amp;&amp; to.<span class="hljs-property">name</span> === <span class="hljs-variable constant_">LOGIN_PAGE_NAME</span>) &#123;<br>    <span class="hljs-comment">// 已登录且要跳转的页面是登录页</span><br>    <span class="hljs-title function_">next</span>(&#123;<br>      <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;home&quot;</span>, <span class="hljs-comment">// 跳转到homeName页</span><br>    &#125;);<br>  &#125;<br>&#125;);<br></code></pre></td></tr></table></figure><p>————————————————<br>原文链接：<a href="https://blog.csdn.net/qq_42049445/article/details/99707795">https://blog.csdn.net/qq_42049445/article/details/99707795</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Vue.js,Vue Router</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>箭头函数和普通函数的区别</title>
     <link href="/2022/03/14/post/"/>
     <url>/2022/03/14/post/</url>
@@ -17,19 +36,6 @@
       <tag>js面试、JavaScript</tag>
       
     </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Vue.js——路由前置守卫(钩子)</title>
-    <link href="/2022/03/09/My-New-Post/"/>
-    <url>/2022/03/09/My-New-Post/</url>
-    
-    <content type="html"><![CDATA[<h2 id="全局前置守卫（钩子）"><a href="#全局前置守卫（钩子）" class="headerlink" title="全局前置守卫（钩子）"></a>全局前置守卫（钩子）</h2><p>从名字<strong>全局前置守卫</strong>不难理解，它是全局的，即对 <strong>整个单页应用（SPA）</strong> 中的所有路由都生效，所以当定义了全局的前置守卫，在进入每一个路由之前都会调用这个回调，那么如果你在回调中对路由的跳转条件判断出错，简单点就是死循环…因为你遗漏了某种路由跳转的情况，守卫会一直执行。所以在使用全局前置守卫的时候一定要判断清楚可能会出现的路由跳转的情况。</p><ul><li>基础语法</li></ul><figure class="highlight javascript"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></div></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> <span class="hljs-title class_">VueRouter</span>(&#123; ... &#125;)<br><br>router.<span class="hljs-title function_">beforeEach</span>(<span class="hljs-function">(<span class="hljs-params">to, <span class="hljs-keyword">from</span>, next</span>) =&gt;</span> &#123;<br>  <span class="hljs-comment">// ...</span><br>&#125;)<br></code></pre></td></tr></table></figure><p>应用场景<br>在iView Admin中全局前置守卫的应用场景就是对用于访问网页的情况进行相应的跳转，例如初次登入，不能访问除登录页面外的页面，已登录会自动跳转自首页等等。<br>代码：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs javascript">router.<span class="hljs-title function_">beforeEach</span>(<span class="hljs-function">(<span class="hljs-params">to, <span class="hljs-keyword">from</span>, next</span>) =&gt;</span> &#123;<br>    <span class="hljs-comment">//开启懒加载</span><br>    iView.<span class="hljs-property">LoadingBar</span>.<span class="hljs-title function_">start</span>()<br><span class="hljs-comment">//获取token</span><br><span class="hljs-keyword">const</span> token = <span class="hljs-title function_">getToken</span>()<br><span class="hljs-keyword">if</span> (!token &amp;&amp; to.<span class="hljs-property">name</span> !== <span class="hljs-variable constant_">LOGIN_PAGE_NAME</span>) &#123;<br>    <span class="hljs-comment">// 未登录且要跳转的页面不是登录页</span><br>    <span class="hljs-title function_">next</span>(&#123;<br>        <span class="hljs-attr">name</span>: <span class="hljs-variable constant_">LOGIN_PAGE_NAME</span> <span class="hljs-comment">// 跳转到登录页</span><br>    &#125;)<br>&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!token &amp;&amp; to.<span class="hljs-property">name</span> === <span class="hljs-variable constant_">LOGIN_PAGE_NAME</span>) &#123;<br>    <span class="hljs-comment">// 未登陆且要跳转的页面是登录页</span><br>    <span class="hljs-title function_">next</span>() <span class="hljs-comment">// 跳转</span><br>&#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (token &amp;&amp; to.<span class="hljs-property">name</span> === <span class="hljs-variable constant_">LOGIN_PAGE_NAME</span>) &#123;<br>    <span class="hljs-comment">// 已登录且要跳转的页面是登录页</span><br>    <span class="hljs-title function_">next</span>(&#123;<br>        <span class="hljs-attr">name</span>: <span class="hljs-string">&#x27;home&#x27;</span> <span class="hljs-comment">// 跳转到homeName页</span><br>    &#125;)<br>&#125;<br>&#125;)<br><br></code></pre></td></tr></table></figure><p>————————————————<br>原文链接：<a href="https://blog.csdn.net/qq_42049445/article/details/99707795">https://blog.csdn.net/qq_42049445/article/details/99707795</a></p>]]></content>
-    
-    
     
   </entry>
   
